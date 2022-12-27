@@ -2,9 +2,11 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/smallnest/grpc-examples/auth/pb"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/reflection"
 	"log"
 	"net"
@@ -19,6 +21,7 @@ type server struct{}
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	return &pb.HelloReply{Message: "Hello " + in.Name}, nil
 }
+
 func main() {
 	flag.Parse()
 	lis, err := net.Listen("tcp", *port)
@@ -33,8 +36,12 @@ func main() {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }
+
 func UnaryServerInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
 	log.Printf("before handling. Info: %+v", info)
+	// 在这里可以进行拦截
+	md, ok := metadata.FromIncomingContext(ctx)
+	fmt.Print(md, ok)
 	resp, err := handler(ctx, req)
 	log.Printf("after handling. resp: %+v", resp)
 	return resp, err
