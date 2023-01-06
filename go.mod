@@ -1,6 +1,7 @@
 module github.com/grpc-ecosystem/go-grpc-middleware
 
 require (
+	github.com/felixge/httpsnoop v1.0.3 // indirect
 	github.com/go-kit/log v0.1.0
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/protobuf v1.4.3

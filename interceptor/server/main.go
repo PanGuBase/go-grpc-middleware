@@ -28,8 +28,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	s := grpc.NewServer(grpc.StreamInterceptor(StreamServerInterceptor),
-		grpc.UnaryInterceptor(UnaryServerInterceptor))
+	s := grpc.NewServer(
+		grpc.StreamInterceptor(StreamServerInterceptor),
+		grpc.UnaryInterceptor(UnaryServerInterceptor),
+	)
 	pb.RegisterGreeterServer(s, &server{})
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {

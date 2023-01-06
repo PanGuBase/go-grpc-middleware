@@ -1,3 +1,25 @@
+## 中间件文档
+
+```
+https://phenix3443.github.io/notebook/protobuf/proto2-language-guide.html
+https://jiajunhuang.com/articles/2020_12_19-grpc_authentication.md.html
+https://www.cnblogs.com/hacker-linner/p/14675639.html
+https://chai2010.cn/advanced-go-programming-book/ch4-rpc/ch4-06-grpc-ext.html
+https://colobu.com/2015/01/07/Protobuf-language-guide/
+
+# grpc
+https://yoshiera.gitee.io/posts/go/grpc-meta/
+https://blog.csdn.net/o__cc/article/details/115479508
+https://gist.github.com/haozibi/1a063822317c95cb1d0281ebb20cb1d6#file-grpc-gateway-demo-go
+https://www.readfog.com/a/1665967072847433728
+花椒服务端 gRPC 开发实践  https://mp.weixin.qq.com/s?__biz=Mzg5NDIwODQ0Mw==&mid=2247483781&idx=1&sn=d6522090c75d723fffe0dfeaf88eeb36&scene=21#wechat_redirect
+https://blog.logrocket.com/guide-to-grpc-gateway/
+
+
+# gRPC-Gateway 與 Gin 一起使用
+https://www.readfog.com/a/1665967072847433728
+```
+
 # Go gRPC Middleware
 
 [![Travis Build](https://travis-ci.org/grpc-ecosystem/go-grpc-middleware.svg?branch=master)](https://travis-ci.org/grpc-ecosystem/go-grpc-middleware)
@@ -14,8 +36,10 @@
 ## Middleware
 
 [gRPC Go](https://github.com/grpc/grpc-go) recently acquired support for
-Interceptors, i.e. [middleware](https://medium.com/@matryer/writing-middleware-in-golang-and-how-go-makes-it-so-much-fun-4375c1246e81#.gv7tdlghs)
-that is executed either on the gRPC Server before the request is passed onto the user's application logic, or on the gRPC client around the user call. It is a perfect way to implement
+Interceptors,
+i.e. [middleware](https://medium.com/@matryer/writing-middleware-in-golang-and-how-go-makes-it-so-much-fun-4375c1246e81#.gv7tdlghs)
+that is executed either on the gRPC Server before the request is passed onto the user's application logic, or on the
+gRPC client around the user call. It is a perfect way to implement
 common patterns: auth, logging, message, validation, retries, or monitoring.
 
 These are generic building blocks that make it easy to build multiple microservices easily.
@@ -28,22 +52,22 @@ some of them itself, but also will link to useful external repos.
 import "github.com/grpc-ecosystem/go-grpc-middleware"
 
 myServer := grpc.NewServer(
-    grpc.StreamInterceptor(grpc_middleware.ChainStreamServer(
-        grpc_ctxtags.StreamServerInterceptor(),
-        grpc_opentracing.StreamServerInterceptor(),
-        grpc_prometheus.StreamServerInterceptor,
-        grpc_zap.StreamServerInterceptor(zapLogger),
-        grpc_auth.StreamServerInterceptor(myAuthFunction),
-        grpc_recovery.StreamServerInterceptor(),
-    )),
-    grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
-        grpc_ctxtags.UnaryServerInterceptor(),
-        grpc_opentracing.UnaryServerInterceptor(),
-        grpc_prometheus.UnaryServerInterceptor,
-        grpc_zap.UnaryServerInterceptor(zapLogger),
-        grpc_auth.UnaryServerInterceptor(myAuthFunction),
-        grpc_recovery.UnaryServerInterceptor(),
-    )),
+grpc.StreamInterceptor(grpc_middleware.ChainStreamServer(
+grpc_ctxtags.StreamServerInterceptor(),
+grpc_opentracing.StreamServerInterceptor(),
+grpc_prometheus.StreamServerInterceptor,
+grpc_zap.StreamServerInterceptor(zapLogger),
+grpc_auth.StreamServerInterceptor(myAuthFunction),
+grpc_recovery.StreamServerInterceptor(),
+)),
+grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
+grpc_ctxtags.UnaryServerInterceptor(),
+grpc_opentracing.UnaryServerInterceptor(),
+grpc_prometheus.UnaryServerInterceptor,
+grpc_zap.UnaryServerInterceptor(zapLogger),
+grpc_auth.UnaryServerInterceptor(myAuthFunction),
+grpc_recovery.UnaryServerInterceptor(),
+)),
 )
 ```
 
@@ -59,16 +83,23 @@ _Please send a PR to add new interceptors or middleware to this list_
 
 - [`grpc_ctxtags`](tags/) - a library that adds a `Tag` map to context, with data populated from request body
 - [`grpc_zap`](logging/zap/) - integration of [zap](https://github.com/uber-go/zap) logging library into gRPC handlers.
-- [`grpc_logrus`](logging/logrus/) - integration of [logrus](https://github.com/sirupsen/logrus) logging library into gRPC handlers.
-- [`grpc_kit`](logging/kit/) - integration of [go-kit/log](https://github.com/go-kit/log) logging library into gRPC handlers.
-- [`grpc_grpc_logsettable`](logging/settable/) - a wrapper around `grpclog.LoggerV2` that allows to replace loggers in runtime (thread-safe).
+- [`grpc_logrus`](logging/logrus/) - integration of [logrus](https://github.com/sirupsen/logrus) logging library into
+  gRPC handlers.
+- [`grpc_kit`](logging/kit/) - integration of [go-kit/log](https://github.com/go-kit/log) logging library into gRPC
+  handlers.
+- [`grpc_grpc_logsettable`](logging/settable/) - a wrapper around `grpclog.LoggerV2` that allows to replace loggers in
+  runtime (thread-safe).
 
 #### Monitoring
 
-- [`grpc_prometheus`⚡](https://github.com/grpc-ecosystem/go-grpc-prometheus) - Prometheus client-side and server-side monitoring middleware
-- [`otgrpc`⚡](https://github.com/grpc-ecosystem/grpc-opentracing/tree/master/go/otgrpc) - [OpenTracing](http://opentracing.io/) client-side and server-side interceptors
-- [`grpc_opentracing`](tracing/opentracing) - [OpenTracing](http://opentracing.io/) client-side and server-side interceptors with support for streaming and handler-returned tags
-- [`otelgrpc`](https://github.com/open-telemetry/opentelemetry-go-contrib/tree/main/instrumentation/google.golang.org/grpc/otelgrpc) - [OpenTelemetry](https://opentelemetry.io/) client-side and server-side interceptors
+- [`grpc_prometheus`⚡](https://github.com/grpc-ecosystem/go-grpc-prometheus) - Prometheus client-side and server-side
+  monitoring middleware
+- [`otgrpc`⚡](https://github.com/grpc-ecosystem/grpc-opentracing/tree/master/go/otgrpc)
+  - [OpenTracing](http://opentracing.io/) client-side and server-side interceptors
+- [`grpc_opentracing`](tracing/opentracing) - [OpenTracing](http://opentracing.io/) client-side and server-side
+  interceptors with support for streaming and handler-returned tags
+- [`otelgrpc`](https://github.com/open-telemetry/opentelemetry-go-contrib/tree/main/instrumentation/google.golang.org/grpc/otelgrpc)
+  - [OpenTelemetry](https://opentelemetry.io/) client-side and server-side interceptors
 
 #### Client
 
@@ -82,7 +113,8 @@ _Please send a PR to add new interceptors or middleware to this list_
 
 ## Status
 
-This code has been running in _production_ since May 2016 as the basis of the gRPC microservices stack at [Improbable](https://improbable.io).
+This code has been running in _production_ since May 2016 as the basis of the gRPC microservices stack
+at [Improbable](https://improbable.io).
 
 Additional tooling will be added, and contributions are welcome.
 
